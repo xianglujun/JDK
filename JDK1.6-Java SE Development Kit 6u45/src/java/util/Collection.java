@@ -14,14 +14,14 @@ package java.util;
  * and others unordered.  The JDK does not provide any <i>direct</i>
  * implementations of this interface: it provides implementations of more
  * specific subinterfaces like <tt>Set</tt> and <tt>List</tt>.  This interface
- * is typically used to pass collections around and manipulate them where
+ * is typically used to pass collections around and manipulate(操作) them where
  * maximum generality is desired.
  *
  * <p><i>Bags</i> or <i>multisets</i> (unordered collections that may contain
  * duplicate elements) should implement this interface directly.
  *
  * <p>All general-purpose <tt>Collection</tt> implementation classes (which
- * typically implement <tt>Collection</tt> indirectly through one of its
+ * typically implement <tt>Collection</tt> indirectly(间接的) through one of its
  * subinterfaces) should provide two "standard" constructors: a void (no
  * arguments) constructor, which creates an empty collection, and a
  * constructor with a single argument of type <tt>Collection</tt>, which
@@ -32,7 +32,7 @@ package java.util;
  * constructors) but all of the general-purpose <tt>Collection</tt>
  * implementations in the Java platform libraries comply.
  *
- * <p>The "destructive" methods contained in this interface, that is, the
+ * <p>The "destructive(破坏的)" methods contained in this interface, that is, the
  * methods that modify the collection on which they operate, are specified to
  * throw <tt>UnsupportedOperationException</tt> if this collection does not
  * support the operation.  If this is the case, these methods may, but are not
@@ -45,10 +45,10 @@ package java.util;
  * <p>Some collection implementations have restrictions on the elements that
  * they may contain.  For example, some implementations prohibit null elements,
  * and some have restrictions on the types of their elements.  Attempting to
- * add an ineligible element throws an unchecked exception, typically
+ * add an ineligible(不合格的) element throws an unchecked exception, typically
  * <tt>NullPointerException</tt> or <tt>ClassCastException</tt>.  Attempting
  * to query the presence of an ineligible element may throw an exception,
- * or it may simply return false; some implementations will exhibit the former
+ * or it may simply return false; some implementations will exhibit(显示, 展示) the former
  * behavior and some will exhibit the latter.  More generally, attempting an
  * operation on an ineligible element whose completion would not result in
  * the insertion of an ineligible element into the collection may throw an
@@ -70,7 +70,7 @@ package java.util;
  * method says: "returns <tt>true</tt> if and only if this collection
  * contains at least one element <tt>e</tt> such that
  * <tt>(o==null ? e==null : o.equals(e))</tt>."  This specification should
- * <i>not</i> be construed to imply that invoking <tt>Collection.contains</tt>
+ * <i>not</i> be construed to imply(意味着) that invoking <tt>Collection.contains</tt>
  * with a non-null argument <tt>o</tt> will cause <tt>o.equals(e)</tt> to be
  * invoked for any element <tt>e</tt>.  Implementations are free to implement
  * optimizations whereby the <tt>equals</tt> invocation is avoided, for
@@ -125,7 +125,7 @@ public interface Collection<E> extends Iterable<E> {
 
     /**
      * Returns <tt>true</tt> if this collection contains the specified element.
-     * More formally, returns <tt>true</tt> if and only if this collection
+     * More formally(正式的), returns <tt>true</tt> if and only if this collection
      * contains at least one element <tt>e</tt> such that
      * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
      *
@@ -337,7 +337,7 @@ public interface Collection<E> extends Iterable<E> {
     boolean removeAll(Collection<?> c);
 
     /**
-     * Retains only the elements in this collection that are contained in the
+     * Retains(保持) only the elements in this collection that are contained in the
      * specified collection (optional operation).  In other words, removes from
      * this collection all of its elements that are not contained in the
      * specified collection.
@@ -406,7 +406,7 @@ public interface Collection<E> extends Iterable<E> {
 
     /**
      * Returns the hash code value for this collection.  While the
-     * <tt>Collection</tt> interface adds no stipulations to the general
+     * <tt>Collection</tt> interface adds no stipulations(规定) to the general
      * contract for the <tt>Object.hashCode</tt> method, programmers should
      * take note that any class that overrides the <tt>Object.equals</tt>
      * method must also override the <tt>Object.hashCode</tt> method in order

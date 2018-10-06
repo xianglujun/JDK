@@ -16,7 +16,7 @@ package java.util;
  * Unlike sets, lists typically allow duplicate elements.  More formally,
  * lists typically allow pairs of elements <tt>e1</tt> and <tt>e2</tt>
  * such that <tt>e1.equals(e2)</tt>, and they typically allow multiple
- * null elements if they allow null elements at all.  It is not inconceivable
+ * null elements if they allow null elements at all.  It is not inconceivable(不可思议的)
  * that someone might wish to implement a list that prohibits duplicates, by
  * throwing runtime exceptions when the user attempts to insert them, but we
  * expect this usage to be rare.<p>
@@ -50,7 +50,7 @@ package java.util;
  * remove multiple elements at an arbitrary point in the list.<p>
  *
  * Note: While it is permissible for lists to contain themselves as elements,
- * extreme caution is advised: the <tt>equals</tt> and <tt>hashCode</tt>
+ * extreme（极度的） caution is advised: the <tt>equals</tt> and <tt>hashCode</tt>
  * methods are no longer well defined on such a list.
  *
  * <p>Some list implementations have restrictions on the elements that
@@ -60,7 +60,7 @@ package java.util;
  * <tt>NullPointerException</tt> or <tt>ClassCastException</tt>.  Attempting
  * to query the presence of an ineligible element may throw an exception,
  * or it may simply return false; some implementations will exhibit the former
- * behavior and some will exhibit the latter.  More generally, attempting an
+ * behavior and some will exhibit the latter(后者).  More generally, attempting an
  * operation on an ineligible element whose completion would not result in
  * the insertion of an ineligible element into the list may throw an
  * exception or it may succeed, at the option of the implementation.
@@ -540,7 +540,7 @@ public interface List<E> extends Collection<E> {
      * The returned list supports all of the optional list operations supported
      * by this list.<p>
      *
-     * This method eliminates the need for explicit range operations (of
+     * This method eliminates(消除) the need for explicit range operations (of
      * the sort that commonly exist for arrays).   Any operation that expects
      * a list can be used as a range operation by passing a subList view
      * instead of a whole list.  For example, the following idiom
@@ -555,8 +555,8 @@ public interface List<E> extends Collection<E> {
      * The semantics of the list returned by this method become undefined if
      * the backing list (i.e., this list) is <i>structurally modified</i> in
      * any way other than via the returned list.  (Structural modifications are
-     * those that change the size of this list, or otherwise perturb it in such
-     * a fashion that iterations in progress may yield incorrect results.)
+     * those that change the size of this list, or otherwise perturb(扰乱) it in such
+     * a fashion that iterations in progress may yield(产生) incorrect results.)
      *
      * @param fromIndex low endpoint (inclusive) of the subList
      * @param toIndex high endpoint (exclusive) of the subList

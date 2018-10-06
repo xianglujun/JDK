@@ -8,34 +8,34 @@
 package java.util;
 
 /**
- * This class provides a skeletal implementation of the <tt>Collection</tt>
+ * This class provides a skeletal(骨骼的) implementation of the <tt>Collection</tt>
  * interface, to minimize the effort required to implement this interface. <p>
- *
+ * <p>
  * To implement an unmodifiable collection, the programmer needs only to
  * extend this class and provide implementations for the <tt>iterator</tt> and
  * <tt>size</tt> methods.  (The iterator returned by the <tt>iterator</tt>
  * method must implement <tt>hasNext</tt> and <tt>next</tt>.)<p>
- *
+ * <p>
  * To implement a modifiable collection, the programmer must additionally
  * override this class's <tt>add</tt> method (which otherwise throws an
  * <tt>UnsupportedOperationException</tt>), and the iterator returned by the
  * <tt>iterator</tt> method must additionally implement its <tt>remove</tt>
  * method.<p>
- *
+ * <p>
  * The programmer should generally provide a void (no argument) and
  * <tt>Collection</tt> constructor, as per the recommendation in the
  * <tt>Collection</tt> interface specification.<p>
- *
+ * <p>
  * The documentation for each non-abstract method in this class describes its
  * implementation in detail.  Each of these methods may be overridden if
  * the collection being implemented admits a more efficient implementation.<p>
- *
+ * <p>
  * This class is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
  * Java Collections Framework</a>.
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @author Josh Bloch
+ * @author Neal Gafter
  * @version %I%, %G%
  * @see Collection
  * @since 1.2
@@ -66,7 +66,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * <p>This implementation returns <tt>size() == 0</tt>.
      */
     public boolean isEmpty() {
-	return size() == 0;
+        return size() == 0;
     }
 
     /**
@@ -79,17 +79,17 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * @throws NullPointerException {@inheritDoc}
      */
     public boolean contains(Object o) {
-	Iterator<E> e = iterator();
-	if (o==null) {
-	    while (e.hasNext())
-		if (e.next()==null)
-		    return true;
-	} else {
-	    while (e.hasNext())
-		if (o.equals(e.next()))
-		    return true;
-	}
-	return false;
+        Iterator<E> e = iterator();
+        if (o == null) {
+            while (e.hasNext())
+                if (e.next() == null)
+                    return true;
+        } else {
+            while (e.hasNext())
+                if (o.equals(e.next()))
+                    return true;
+        }
+        return false;
     }
 
     /**
@@ -107,7 +107,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      *
      * <p>This method is equivalent to:
      *
-     *  <pre> {@code
+     * <pre> {@code
      * List<E> list = new ArrayList<E>(size());
      * for (E e : this)
      *     list.add(e);
@@ -116,14 +116,14 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      */
     public Object[] toArray() {
         // Estimate size of array; be prepared to see more or fewer elements
-	Object[] r = new Object[size()];
+        Object[] r = new Object[size()];
         Iterator<E> it = iterator();
-	for (int i = 0; i < r.length; i++) {
-	    if (! it.hasNext())	// fewer elements than expected
-		return Arrays.copyOf(r, i);
-	    r[i] = it.next();
-	}
-	return it.hasNext() ? finishToArray(r, it) : r;
+        for (int i = 0; i < r.length; i++) {
+            if (!it.hasNext())    // fewer elements than expected
+                return Arrays.copyOf(r, i);
+            r[i] = it.next();
+        }
+        return it.hasNext() ? finishToArray(r, it) : r;
     }
 
     /**
@@ -143,7 +143,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      *
      * <p>This method is equivalent to:
      *
-     *  <pre> {@code
+     * <pre> {@code
      * List<E> list = new ArrayList<E>(size());
      * for (E e : this)
      *     list.add(e);
@@ -156,21 +156,27 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     public <T> T[] toArray(T[] a) {
         // Estimate size of array; be prepared to see more or fewer elements
         int size = size();
+        // 这一步是一个发现，如果传入的结果数组的size比当前的还小，则需要通过
+        // 反射机制来创建一个新的数组,
         T[] r = a.length >= size ? a :
-                  (T[])java.lang.reflect.Array
-                  .newInstance(a.getClass().getComponentType(), size);
+                (T[]) java.lang.reflect.Array
+                        .newInstance(a.getClass().getComponentType(), size);
         Iterator<E> it = iterator();
 
-	for (int i = 0; i < r.length; i++) {
-	    if (! it.hasNext()) { // fewer elements than expected
-		if (a != r)
-		    return Arrays.copyOf(r, i);
-		r[i] = null; // null-terminate
-		return r;
-	    }
-	    r[i] = (T)it.next();
-	}
-	return it.hasNext() ? finishToArray(r, it) : r;
+        for (int i = 0; i < r.length; i++) {
+            // fewer elements than expected
+            if (!it.hasNext()) {
+                if (a != r) {
+                    return Arrays.copyOf(r, i);
+                }
+                // 这是一个很精妙的设计, 对于传入的数组而言, 其实可能会传入比当前的数组的
+                // size还要大，结果数组超过的部分,则设置为null即可。
+                r[i] = null;
+                return r;
+            }
+            r[i] = (T) it.next();
+        }
+        return it.hasNext() ? finishToArray(r, it) : r;
     }
 
     /**
@@ -178,26 +184,29 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * returned more elements than expected, and finishes filling it from
      * the iterator.
      *
-     * @param r the array, replete with previously stored elements
+     * @param r  the array, replete with previously stored elements
      * @param it the in-progress iterator over this collection
      * @return array containing the elements in the given array, plus any
-     *         further elements returned by the iterator, trimmed to size
+     * further elements returned by the iterator, trimmed to size
      */
     private static <T> T[] finishToArray(T[] r, Iterator<?> it) {
-	int i = r.length;
+        // 传入数组的长度
+        int i = r.length;
         while (it.hasNext()) {
             int cap = r.length;
             if (i == cap) {
                 int newCap = ((cap / 2) + 1) * 3;
-                if (newCap <= cap) { // integer overflow
-		    if (cap == Integer.MAX_VALUE)
-			throw new OutOfMemoryError
-			    ("Required array size too large");
-		    newCap = Integer.MAX_VALUE;
-		}
-		r = Arrays.copyOf(r, newCap);
-	    }
-	    r[i++] = (T)it.next();
+                // integer overflow
+                if (newCap <= cap) {
+                    if (cap == Integer.MAX_VALUE) {
+                        throw new OutOfMemoryError
+                                ("Required array size too large");
+                    }
+                    newCap = Integer.MAX_VALUE;
+                }
+                r = Arrays.copyOf(r, newCap);
+            }
+            r[i++] = (T) it.next();
         }
         // trim if overallocated
         return (i == r.length) ? r : Arrays.copyOf(r, i);
@@ -218,7 +227,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * @throws IllegalStateException         {@inheritDoc}
      */
     public boolean add(E e) {
-	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -238,23 +247,23 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * @throws NullPointerException          {@inheritDoc}
      */
     public boolean remove(Object o) {
-	Iterator<E> e = iterator();
-	if (o==null) {
-	    while (e.hasNext()) {
-		if (e.next()==null) {
-		    e.remove();
-		    return true;
-		}
-	    }
-	} else {
-	    while (e.hasNext()) {
-		if (o.equals(e.next())) {
-		    e.remove();
-		    return true;
-		}
-	    }
-	}
-	return false;
+        Iterator<E> e = iterator();
+        if (o == null) {
+            while (e.hasNext()) {
+                if (e.next() == null) {
+                    e.remove();
+                    return true;
+                }
+            }
+        } else {
+            while (e.hasNext()) {
+                if (o.equals(e.next())) {
+                    e.remove();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
@@ -268,16 +277,16 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * if it's contained in this collection.  If all elements are so
      * contained <tt>true</tt> is returned, otherwise <tt>false</tt>.
      *
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
+     * @throws ClassCastException   {@inheritDoc}
+     * @throws NullPointerException {@inheritDoc}
      * @see #contains(Object)
      */
     public boolean containsAll(Collection<?> c) {
-	Iterator<?> e = c.iterator();
-	while (e.hasNext())
-	    if (!contains(e.next()))
-		return false;
-	return true;
+        Iterator<?> e = c.iterator();
+        while (e.hasNext())
+            if (!contains(e.next()))
+                return false;
+        return true;
     }
 
     /**
@@ -295,17 +304,16 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * @throws NullPointerException          {@inheritDoc}
      * @throws IllegalArgumentException      {@inheritDoc}
      * @throws IllegalStateException         {@inheritDoc}
-     *
      * @see #add(Object)
      */
     public boolean addAll(Collection<? extends E> c) {
-	boolean modified = false;
-	Iterator<? extends E> e = c.iterator();
-	while (e.hasNext()) {
-	    if (add(e.next()))
-		modified = true;
-	}
-	return modified;
+        boolean modified = false;
+        Iterator<? extends E> e = c.iterator();
+        while (e.hasNext()) {
+            if (add(e.next()))
+                modified = true;
+        }
+        return modified;
     }
 
     /**
@@ -325,20 +333,19 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws ClassCastException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     *
      * @see #remove(Object)
      * @see #contains(Object)
      */
     public boolean removeAll(Collection<?> c) {
-	boolean modified = false;
-	Iterator<?> e = iterator();
-	while (e.hasNext()) {
-	    if (c.contains(e.next())) {
-		e.remove();
-		modified = true;
-	    }
-	}
-	return modified;
+        boolean modified = false;
+        Iterator<?> e = iterator();
+        while (e.hasNext()) {
+            if (c.contains(e.next())) {
+                e.remove();
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     /**
@@ -358,20 +365,19 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws ClassCastException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     *
      * @see #remove(Object)
      * @see #contains(Object)
      */
     public boolean retainAll(Collection<?> c) {
-	boolean modified = false;
-	Iterator<E> e = iterator();
-	while (e.hasNext()) {
-	    if (!c.contains(e.next())) {
-		e.remove();
-		modified = true;
-	    }
-	}
-	return modified;
+        boolean modified = false;
+        Iterator<E> e = iterator();
+        while (e.hasNext()) {
+            if (!c.contains(e.next())) {
+                e.remove();
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     /**
@@ -390,11 +396,11 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * @throws UnsupportedOperationException {@inheritDoc}
      */
     public void clear() {
-	Iterator<E> e = iterator();
-	while (e.hasNext()) {
-	    e.next();
-	    e.remove();
-	}
+        Iterator<E> e = iterator();
+        while (e.hasNext()) {
+            e.next();
+            e.remove();
+        }
     }
 
 
@@ -412,18 +418,18 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      */
     public String toString() {
         Iterator<E> i = iterator();
-	if (! i.hasNext())
-	    return "[]";
+        if (!i.hasNext())
+            return "[]";
 
-	StringBuilder sb = new StringBuilder();
-	sb.append('[');
-	for (;;) {
-	    E e = i.next();
-	    sb.append(e == this ? "(this Collection)" : e);
-	    if (! i.hasNext())
-		return sb.append(']').toString();
-	    sb.append(", ");
-	}
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for (; ; ) {
+            E e = i.next();
+            sb.append(e == this ? "(this Collection)" : e);
+            if (!i.hasNext())
+                return sb.append(']').toString();
+            sb.append(", ");
+        }
     }
 
 }

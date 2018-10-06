@@ -9,13 +9,13 @@ package java.util;
 
 /**
  * Marker interface used by <tt>List</tt> implementations to indicate that
- * they support fast (generally constant time) random access.  The primary
+ * they support fast (generally constant time) random access(随机存取).  The primary
  * purpose of this interface is to allow generic algorithms to alter their
- * behavior to provide good performance when applied to either random or
- * sequential access lists.
+ * behavior to provide good performance(性能) when applied to either random or
+ * sequential(连续的) access lists.
  *
  * <p>The best algorithms for manipulating random access lists (such as
- * <tt>ArrayList</tt>) can produce quadratic behavior when applied to
+ * <tt>ArrayList</tt>) can produce quadratic(二次的) behavior when applied to
  * sequential access lists (such as <tt>LinkedList</tt>).  Generic list
  * algorithms are encouraged to check whether the given list is an
  * <tt>instanceof</tt> this interface before applying an algorithm that would
@@ -23,10 +23,10 @@ package java.util;
  * and to alter their behavior if necessary to guarantee acceptable
  * performance.
  * 
- * <p>It is recognized that the distinction between random and sequential
- * access is often fuzzy.  For example, some <tt>List</tt> implementations
- * provide asymptotically linear access times if they get huge, but constant
- * access times in practice.  Such a <tt>List</tt> implementation
+ * <p>It is recognized that the distinction(区别) between random and sequential
+ * access is often fuzzy(模糊的).  For example, some <tt>List</tt> implementations
+ * provide asymptotically(渐近地) linear access times if they get huge, but constant
+ * access times in practice(在实践中存取为一个常数).  Such a <tt>List</tt> implementation
  * should generally implement this interface.  As a rule of thumb, a
  * <tt>List</tt> implementation should implement this interface if,
  * for typical instances of the class, this loop:
