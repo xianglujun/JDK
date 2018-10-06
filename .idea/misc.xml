@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/JDK1.6-Java SE Development Kit 6u45/pom.xml" />
+        <option value="$PROJECT_DIR$/JDK10-Java SE Development Kit 10/pom.xml" />
+        <option value="$PROJECT_DIR$/JDK1.9/pom.xml" />
+        <option value="$PROJECT_DIR$/JDK1.8/pom.xml" />
+        <option value="$PROJECT_DIR$/JDK1.7-Java SE Development Kit 7u80/pom.xml" />
+        <option value="$PROJECT_DIR$/JDK1.7/pom.xml" />
+        <option value="$PROJECT_DIR$/JDK_demos_8u66/pom.xml" />
+      </list>
+    </option>
+  </component>
+</project>
