@@ -10,11 +10,11 @@ package java.util;
 /**
  * This class provides a skeletal implementation of the <tt>List</tt>
  * interface to minimize the effort required to implement this interface
- * backed by a "sequential access" data store (such as a linked list).  For
+ * backed by a "sequential(连续的) access" data store (such as a linked list).  For
  * random access data (such as an array), <tt>AbstractList</tt> should be used
  * in preference to this class.<p>
  *
- * This class is the opposite of the <tt>AbstractList</tt> class in the sense
+ * This class is the opposite(相反的) of the <tt>AbstractList</tt> class in the sense
  * that it implements the "random access" methods (<tt>get(int index)</tt>,
  * <tt>set(int index, E element)</tt>, <tt>add(int index, E element)</tt> and
  * <tt>remove(int index)</tt>) on top of the list's list iterator, instead of
