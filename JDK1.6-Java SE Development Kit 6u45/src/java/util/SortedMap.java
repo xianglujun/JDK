@@ -35,7 +35,7 @@ package java.util;
  * the <tt>Map</tt> interface is defined in terms of the <tt>equals</tt>
  * operation, but a sorted map performs all key comparisons using its
  * <tt>compareTo</tt> (or <tt>compare</tt>) method, so two keys that are
- * deemed equal by this method are, from the standpoint of the sorted map,
+ * deemed(视同) equal by this method are, from the standpoint of the sorted map,
  * equal.  The behavior of a tree map <i>is</i> well-defined even if its
  * ordering is inconsistent with equals; it just fails to obey the general
  * contract of the <tt>Map</tt> interface.

@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="JDK (2)" />
+        <module name="JDK1.6" />
         <module name="JDK1.7" />
         <module name="JDK1.7-7u80" />
       </profile>
@@ -15,6 +16,7 @@
       <module name="JDK" target="1.5" />
       <module name="JDK (1)" target="1.5" />
       <module name="JDK (2)" target="1.5" />
+      <module name="JDK1.6" target="1.5" />
       <module name="JDK1.7" target="1.5" />
       <module name="JDK1.7-7u80" target="1.5" />
       <module name="JDK1.8" target="1.5" />

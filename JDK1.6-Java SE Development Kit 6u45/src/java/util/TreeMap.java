@@ -15,11 +15,11 @@ package java.util;
  *
  * <p>This implementation provides guaranteed log(n) time cost for the
  * <tt>containsKey</tt>, <tt>get</tt>, <tt>put</tt> and <tt>remove</tt>
- * operations.  Algorithms are adaptations of those in Cormen, Leiserson, and
+ * operations.  Algorithms are adaptations(适应) of those in Cormen, Leiserson, and
  * Rivest's <I>Introduction to Algorithms</I>.
  *
  * <p>Note that the ordering maintained by a sorted map (whether or not an
- * explicit comparator is provided) must be <i>consistent with equals</i> if
+ * explicit comparator is provided) must be <i>consistent(始终如一的) with equals</i> if
  * this sorted map is to correctly implement the <tt>Map</tt> interface.  (See
  * <tt>Comparable</tt> or <tt>Comparator</tt> for a precise definition of
  * <i>consistent with equals</i>.)  This is so because the <tt>Map</tt>
@@ -508,7 +508,9 @@ public class TreeMap<K,V>
      *         does not permit null keys
      */
     public V put(K key, V value) {
+        // 找到根节点
         Entry<K,V> t = root;
+        // 如果根节点不存在, 则默认创建根节点
         if (t == null) {
 	    // TBD:
 	    // 5045147: (coll) Adding null to an empty TreeSet should
@@ -533,6 +535,7 @@ public class TreeMap<K,V>
                 else if (cmp > 0)
                     t = t.right;
                 else
+                    // 如果key的comparable的节点的值相等，则直接替换
                     return t.setValue(value);
             } while (t != null);
         }
@@ -2071,7 +2074,9 @@ public class TreeMap<K,V>
     private void fixAfterInsertion(Entry<K,V> x) {
         x.color = RED;
 
+        // Entry默认为BLACK节点
         while (x != null && x != root && x.parent.color == RED) {
+            // 判断父节点是否
             if (parentOf(x) == leftOf(parentOf(parentOf(x)))) {
                 Entry<K,V> y = rightOf(parentOf(parentOf(x)));
                 if (colorOf(y) == RED) {
