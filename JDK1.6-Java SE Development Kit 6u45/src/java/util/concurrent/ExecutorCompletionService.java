@@ -11,14 +11,14 @@ package java.util.concurrent;
  * A {@link CompletionService} that uses a supplied {@link Executor}
  * to execute tasks.  This class arranges that submitted tasks are,
  * upon completion, placed on a queue accessible using <tt>take</tt>.
- * The class is lightweight enough to be suitable for transient use
+ * The class is lightweight enough to be suitable for transient(短暂的) use
  * when processing groups of tasks.
  *
  * <p>
  *
  * <b>Usage Examples.</b>
  *
- * Suppose you have a set of solvers for a certain problem, each
+ * Suppose(假设) you have a set of solvers(解决者) for a certain problem, each
  * returning a value of some type <tt>Result</tt>, and would like to
  * run them concurrently, processing the results of each of them that
  * return a non-null value, in some method <tt>use(Result r)</tt>. You
@@ -91,6 +91,10 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
             super(task, null);
             this.task = task;
         }
+
+        /**
+         * 当任务执行完成之后, 则将完成的任务加入到已完成队列
+         */
         protected void done() { completionQueue.add(task); }
         private final Future<V> task;
     }
@@ -160,14 +164,33 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
         return f;
     }
 
+    /**
+     * 该方法会产生一个阻塞, 直到有数据返回
+     * @return
+     * @throws InterruptedException
+     */
     public Future<V> take() throws InterruptedException {
         return completionQueue.take();
     }
 
+    /**
+     * 该方法也是返回队列的第一个元素, 如果队列为空, 则返回null, 不会阻塞
+     * @return
+     */
     public Future<V> poll() {
         return completionQueue.poll();
     }
 
+    /**
+     * 如果队列的第一个元素不存在, 则等待{@code timeout}的时间之后, 仍然没有数据返回, 则返回true
+     *
+     * @param timeout how long to wait before giving up, in units of
+     *        <tt>unit</tt>
+     * @param unit a <tt>TimeUnit</tt> determining how to interpret the
+     *        <tt>timeout</tt> parameter
+     * @return
+     * @throws InterruptedException
+     */
     public Future<V> poll(long timeout, TimeUnit unit) throws InterruptedException {
         return completionQueue.poll(timeout, unit);
     }
