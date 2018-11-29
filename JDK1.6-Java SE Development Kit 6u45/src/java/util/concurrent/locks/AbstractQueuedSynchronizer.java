@@ -628,7 +628,9 @@ public abstract class AbstractQueuedSynchronizer
     for (; ; ) {
       Node h = head;
       if (h != null && h != tail) {
+        // 判断head的等待状态
         int ws = h.waitStatus;
+        // 等待被唤醒状态
         if (ws == Node.SIGNAL) {
           if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0)) {
             continue; // loop to recheck cases
@@ -639,6 +641,7 @@ public abstract class AbstractQueuedSynchronizer
           continue; // loop on failed CAS
         }
       }
+      // 表明唤醒后续节点失败
       if (h == head) // loop if head changed
       {
         break;
@@ -654,6 +657,7 @@ public abstract class AbstractQueuedSynchronizer
    */
   private void setHeadAndPropagate(Node node, int propagate) {
     Node h = head; // Record old head for check below
+    // 将head指向自己
     setHead(node);
     /*
      * Try to signal next queued node if:
@@ -671,6 +675,7 @@ public abstract class AbstractQueuedSynchronizer
      * anyway.
      */
     if (propagate > 0 || h == null || h.waitStatus < 0) {
+      // 如果还有剩余量, 则唤醒下一个节点
       Node s = node.next;
       if (s == null || s.isShared()) {
         doReleaseShared();
@@ -694,6 +699,7 @@ public abstract class AbstractQueuedSynchronizer
     node.thread = null;
 
     // Skip cancelled predecessors
+    // 取消节点的时候, 则会挑选不是取消状态的节点
     Node pred = node.prev;
     while (pred.waitStatus > 0) {
       node.prev = pred = pred.prev;
@@ -710,6 +716,7 @@ public abstract class AbstractQueuedSynchronizer
     node.waitStatus = Node.CANCELLED;
 
     // If we are the tail, remove ourselves.
+    // 将取消节点的父节点作为尾部节点
     if (node == tail && compareAndSetTail(node, pred)) {
       compareAndSetNext(pred, predNext, null);
     } else {
@@ -728,6 +735,7 @@ public abstract class AbstractQueuedSynchronizer
         unparkSuccessor(node);
       }
 
+      // 自己的下一个节点就是自己
       node.next = node; // help GC
     }
   }
@@ -918,22 +926,30 @@ public abstract class AbstractQueuedSynchronizer
    * @param arg the acquire argument
    */
   private void doAcquireShared(int arg) {
+    // 将当前的线程加入到队尾
     final Node node = addWaiter(Node.SHARED);
     try {
       boolean interrupted = false;
       for (; ; ) {
         final Node p = node.predecessor();
+        // 如果前继节点为head, 尝试否是能够获取到共享资源
+        // 因为head是正在执行的线程, 这是线程执行到这里, 可能是head已经被执行完成,
+        // 则尝试获取锁
         if (p == head) {
           int r = tryAcquireShared(arg);
-          if (r >= 0) {
+          if (r >= 0) { // 获取共享资源成功
+            // 将head指向自己, 如果还有剩余的资源, 则唤醒其后的节点资源
             setHeadAndPropagate(node, r);
             p.next = null; // help GC
             if (interrupted) {
+              // 如果当前的线程通过interrupted的方式打断, 则执行自我中断的方式
               selfInterrupt();
             }
             return;
           }
         }
+        // 尝试获取共享资源失败, 则找到能够park的位置
+        // 并进行park, 等待被interrupted或者unpark
         if (shouldParkAfterFailedAcquire(p, node) &&
             parkAndCheckInterrupt()) {
           interrupted = true;
@@ -1216,6 +1232,8 @@ public abstract class AbstractQueuedSynchronizer
       // 有后续的节点在等待, 因为在独占模式中, 如果有后续等待节点,
       // 会将当前的节点的状态设置为SIGNAL状态
       if (h != null && h.waitStatus != 0) {
+        // 唤醒后续节点, 获取独占资源
+        // 从head节点开始项下
         unparkSuccessor(h);
       }
       return true;
@@ -1287,6 +1305,7 @@ public abstract class AbstractQueuedSynchronizer
    * @return the value returned from {@link #tryReleaseShared}
    */
   public final boolean releaseShared(int arg) {
+    // 尝试释放资源
     if (tryReleaseShared(arg)) {
       doReleaseShared();
       return true;
@@ -1487,6 +1506,8 @@ public abstract class AbstractQueuedSynchronizer
    * Returns a collection containing threads that may be waiting to acquire in exclusive mode. This
    * has the same properties as {@link #getQueuedThreads} except that it only returns those threads
    * waiting due to an exclusive acquire.
+   *
+   * 获取独占模式的所有缓存的队列, 主要通过{@link Node#isShared()}判断是否为共享模式
    *
    * @return the collection of threads
    */
