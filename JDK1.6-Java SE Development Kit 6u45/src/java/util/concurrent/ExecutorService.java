@@ -12,8 +12,8 @@ import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
 
 /**
- * An {@link Executor} that provides methods to manage termination and
- * methods that can produce a {@link Future} for tracking progress of
+ * An {@link Executor} that provides methods to manage termination(终止) and
+ * methods(方法) that can produce a {@link Future} for tracking(跟踪) progress of
  * one or more asynchronous tasks.
  *
  * <p> An <tt>ExecutorService</tt> can be shut down, which will cause
@@ -25,7 +25,7 @@ import java.security.PrivilegedExceptionAction;
  * Upon termination, an executor has no tasks actively executing, no
  * tasks awaiting execution, and no new tasks can be submitted.  An
  * unused <tt>ExecutorService</tt> should be shut down to allow
- * reclamation of its resources.
+ * reclamation(回收, 重复利用) of its resources.
  *
  * <p> Method <tt>submit</tt> extends base method {@link
  * Executor#execute} by creating and returning a {@link Future} that
@@ -34,15 +34,15 @@ import java.security.PrivilegedExceptionAction;
  * commonly useful forms of bulk execution, executing a collection of
  * tasks and then waiting for at least one, or all, to
  * complete. (Class {@link ExecutorCompletionService} can be used to
- * write customized variants of these methods.)
+ * write customized variants(变体) of these methods.)
  *
  * <p>The {@link Executors} class provides factory methods for the
  * executor services provided in this package.
  *
  * <h3>Usage Examples</h3>
  *
- * Here is a sketch of a network service in which threads in a thread
- * pool service incoming requests. It uses the preconfigured {@link
+ * Here is a sketch(素描, 描述) of a network service in which threads in a thread
+ * pool service incoming requests. It uses the preconfigured(预配置) {@link
  * Executors#newFixedThreadPool} factory method:
  *
  * <pre>
@@ -128,7 +128,7 @@ public interface ExecutorService extends Executor {
     void shutdown();
 
     /**
-     * Attempts to stop all actively executing tasks, halts the
+     * Attempts to stop all actively executing tasks, halts(停止) the
      * processing of waiting tasks, and returns a list of the tasks that were
      * awaiting execution.
      *
@@ -137,7 +137,7 @@ public interface ExecutorService extends Executor {
      * implementations will cancel via {@link Thread#interrupt}, so any
      * task that fails to respond to interrupts may never terminate.
      *
-     * @return list of tasks that never commenced execution
+     * @return list of tasks that never commenced(开始) execution
      * @throws SecurityException if a security manager exists and
      *         shutting down this ExecutorService may manipulate
      *         threads that the caller is not permitted to modify
@@ -191,7 +191,7 @@ public interface ExecutorService extends Executor {
      * <tt>result = exec.submit(aCallable).get();</tt>
      *
      * <p> Note: The {@link Executors} class includes a set of methods
-     * that can convert some other common closure-like objects,
+     * that can convert some other common closure(闭包)-like objects,
      * for example, {@link java.security.PrivilegedAction} to
      * {@link Callable} form so they can be submitted.
      *

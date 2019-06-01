@@ -84,7 +84,7 @@ package java.util.concurrent;
  * }</pre>
  *
  * The <tt>Executor</tt> implementations provided in this package
- * implement {@link ExecutorService}, which is a more extensive
+ * implement {@link ExecutorService}, which is a more extensive(广泛的)
  * interface.  The {@link ThreadPoolExecutor} class provides an
  * extensible thread pool implementation. The {@link Executors} class
  * provides convenient factory methods for these Executors.
