@@ -1978,8 +1978,10 @@ public abstract class AbstractQueuedSynchronizer
          * </ol>
          */
         public final void await() throws InterruptedException {
+            // 如果线程处于被打断的状态，则跑出异常, 该方法会重置状态
             if (Thread.interrupted())
                 throw new InterruptedException();
+
             Node node = addConditionWaiter();
             int savedState = fullyRelease(node);
             int interruptMode = 0;
